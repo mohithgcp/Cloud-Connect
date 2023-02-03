@@ -1,0 +1,22 @@
+steps:
+  # Install Terraform
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['components', 'install', 'terraform']
+
+  # Configure Terraform environment
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['config', 'set', 'project', '$PROJECT_ID']
+    env:
+      - 'PROJECT_ID=groovy-environs-372104'
+
+  # Initialize Terraform
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['terraform', 'init']
+
+  # Plan Terraform changes
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['terraform', 'plan', '-out=plan.out']
+
+  # Apply Terraform changes
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['terraform', 'apply', 'plan.out']
